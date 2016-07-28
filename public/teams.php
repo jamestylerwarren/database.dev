@@ -19,13 +19,9 @@ function pageController()
 		$sql .=  " ORDER BY '$orderBy";
 	}
 	// Copy the query and test it in SQL Pro
-
-	if (Input::has('page')) {
-		$pageNum = Input::get('page');
-		$page = ($pageNum-1)*5;
-		// Add a LIMIT and an OFFSET clause, suppose the size of each page is 5
-		$sql .= " LIMIT 5 OFFSET $page"; 
-	}
+	$page = Input::get('page', 1) < 0 ? 1 : Input::get('page', 1);
+	$offset =  $page * 5 - 5;
+	$sql .= " LIMIT 5 OFFSET $offset";
 
 	var_dump($sql);
 
