@@ -4,8 +4,9 @@ require __DIR__ . '/../src/Input.php';
 function pageController()
 {
     // Write the SELECT to retrieve all upcoming games
-    $sql = '';
+    $sql = 'SELECT * FROM games WHERE game_date > now()';
     if (Input::has('league')) {
+        $sql = "";
         // Concatenate the WHERE part to retrieve only the games for either the
         // National league or the American league
     }
