@@ -3,15 +3,53 @@ require __DIR__ . '/../src/Input.php';
 
 function pageController()
 {
+    $teamId = Input::get('team_id');
     // Write the SELECT to retrieve the following statistics
     // - Number of Games won
     // - Number of Games lost
     // - Number of Games won as local
     // - Number of Games won as visitor
     // Use joins or sub-queries as needed...
-    
-    
-    $sql = '';
+
+
+    $sql = "SELECT 
+        (
+        -- selecting total games won
+        SELECT count(*) 
+        FROM games
+        WHERE (local_team_runs > visitor_team_runs
+        AND local_team_id = t.id)
+        OR (local_team_runs < visitor_team_runs
+        AND visitor_team_id = t.id)) AS 'Games Won',
+
+        (
+        -- selecting total games lost        
+        SELECT count(*) 
+        FROM games
+        WHERE (local_team_runs < visitor_team_runs
+        AND local_team_id = t.id)
+        OR (local_team_runs > visitor_team_runs
+        AND visitor_team_id = t.id)
+        ) AS 'Games Lost',
+
+        (
+        -- selecting total games as local team
+        SELECT count(*) 
+        FROM games
+        WHERE (local_team_runs > visitor_team_runs
+        AND local_team_id = t.id) 
+        ) AS 'Games Won as Local',
+
+        (
+        -- selecting total games won as visitor team
+        SELECT count(*) 
+        FROM games
+        WHERE (local_team_runs < visitor_team_runs
+        AND visitor_team_id = t.id)
+        ) AS 'Games Won as Visitor'
+
+        FROM teams AS t -- renaming teams, t.id now = $teamId
+        WHERE id = $teamId"; 
 
     // Copy the generated query and verify that it retrieves the correct values
     // in SQL Pro
