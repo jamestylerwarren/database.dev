@@ -15,38 +15,38 @@ function pageController()
     $sql = "SELECT 
         (
         -- selecting total games won
-        SELECT count(*) 
-        FROM games
-        WHERE (local_team_runs > visitor_team_runs
-        AND local_team_id = t.id)
-        OR (local_team_runs < visitor_team_runs
-        AND visitor_team_id = t.id)) AS 'Games Won',
+            SELECT count(*) 
+            FROM games
+            WHERE (local_team_runs > visitor_team_runs
+            AND local_team_id = t.id)
+            OR (local_team_runs < visitor_team_runs
+            AND visitor_team_id = t.id)) AS 'Games Won',
 
         (
         -- selecting total games lost        
-        SELECT count(*) 
-        FROM games
-        WHERE (local_team_runs < visitor_team_runs
-        AND local_team_id = t.id)
-        OR (local_team_runs > visitor_team_runs
-        AND visitor_team_id = t.id)
-        ) AS 'Games Lost',
+            SELECT count(*) 
+            FROM games
+            WHERE (local_team_runs < visitor_team_runs
+            AND local_team_id = t.id)
+            OR (local_team_runs > visitor_team_runs
+            AND visitor_team_id = t.id)
+            ) AS 'Games Lost',
 
         (
         -- selecting total games as local team
-        SELECT count(*) 
-        FROM games
-        WHERE (local_team_runs > visitor_team_runs
-        AND local_team_id = t.id) 
-        ) AS 'Games Won as Local',
+            SELECT count(*) 
+            FROM games
+            WHERE (local_team_runs > visitor_team_runs
+            AND local_team_id = t.id) 
+            ) AS 'Games Won as Local',
 
         (
         -- selecting total games won as visitor team
-        SELECT count(*) 
-        FROM games
-        WHERE (local_team_runs < visitor_team_runs
-        AND visitor_team_id = t.id)
-        ) AS 'Games Won as Visitor'
+            SELECT count(*) 
+            FROM games
+            WHERE (local_team_runs < visitor_team_runs
+            AND visitor_team_id = t.id)
+            ) AS 'Games Won as Visitor'
 
         FROM teams AS t -- renaming teams, t.id now = $teamId
         WHERE id = $teamId"; 

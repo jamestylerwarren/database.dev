@@ -4,7 +4,7 @@ require __DIR__ . '/../src/Input.php';
 function pageController()
 {
     // Write the SELECT to retrieve all upcoming games
-    $sql = 'SELECT * FROM games JOIN teams AS teamsv ON teamsv.id = games.visitor_team_id JOIN teams AS teamsl ON teamsl.id = games.local_team_id WHERE games.game_date > now()';
+    $sql = "SELECT * FROM games JOIN teams AS teamsv ON teamsv.id = games.visitor_team_id JOIN teams AS teamsl ON teamsl.id = games.local_team_id WHERE games.game_date > now()";
 
     if (Input::has('league')) {
         $league = Input::get('league');
