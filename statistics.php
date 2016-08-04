@@ -30,23 +30,19 @@ function pageController()
     FROM teams AS t
     WHERE t.id = $teamId
 STATISTICS;
-
-    $dbc = new PDO('mysql:host=localhost;dbname=the_league_db', 'vagrant', 'vagrant', [
+    $connection = new PDO('mysql:host=localhost;dbname=the_league_db', 'vagrant', 'vagrant', [
         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
     ]);
 
-    var_dump($dbc);
-
-    $statistics = $dbc->query($sql)->fetch(PDO::FETCH_NUM);
+    $statistics = $connection->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     $name = array_pop($statistics);
+
     return [
         'title' => $name,
-        'statistics' => $statistics,
+        ' statistics' => $statistics,
     ];
 }
-
 extract(pageController());
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,7 +73,7 @@ extract(pageController());
             datasets: [{
                 label: 'Games',
                 // `data` should be a JS array with the 4 numbers from the result set.
-                data: <?= json_encode($statistics); ?>,
+                data: <?= json_encode($statistics) ?>,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
